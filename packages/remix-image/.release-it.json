@@ -1,0 +1,28 @@
+{
+  "plugins": {
+    "@release-it/keep-a-changelog": {
+      "filename": "CHANGELOG.md"
+    }
+  },
+  "git": {
+    "requireBranch": "master",
+    "commitMessage": "chore: release ${name} v${version}",
+    "tag": true,
+    "tagName": "v${version}",
+    "push": true
+  },
+  "npm": {
+    "publish": true
+  },
+  "github": {
+    "release": true
+  },
+  "hooks": {
+    "before:init": "npm run test",
+    "after:bump": ["npm run build"],
+    "after:release": [
+      "npm run update-docs --prefix ../..",
+      "echo Successfully released ${name} v${version} to ${repo.repository}."
+    ]
+  }
+}
